@@ -60,5 +60,5 @@ func hotdog(w http.ResponseWriter, req *http.Request) {
 func main() {
 	http.HandleFunc("/hotdog", hotdog)
 
-	http.ListenAndServe(":5000", nil)
+	http.ListenAndServe(":80", nil)
 }
