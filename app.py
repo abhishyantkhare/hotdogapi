@@ -13,10 +13,10 @@ HOTDOG_LABEL = "Hot Dog"
 
 
 def _is_hot_dog(response):
-    if len(response["Labels"]) < 1:
-        return False
-    label = response["Labels"][0]
-    return label["Name"] == HOTDOG_LABEL and label["Confidence"] > MIN_CONFIDENCE
+    for label in response["Labels"]:
+        if label["Name"] == HOTDOG_LABEL:
+            return True
+    return False
 
 @app.route("/hotdog", methods=["POST"])
 def hello_world():
@@ -25,7 +25,8 @@ def hello_world():
         Image={
             "Bytes": image.read()
         },
-        MaxLabels=1,
+        MaxLabels=10,
         MinConfidence=MIN_CONFIDENCE
     )
+    print(response)
     return jsonify({"is_hotdog": _is_hot_dog(response)})
